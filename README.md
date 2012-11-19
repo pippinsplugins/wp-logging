@@ -90,3 +90,11 @@ $log_meta = array(
 
 $log_entry = WP_Logging::insert_log( $log_data, $log_meta );
 ```
+
+Retrieving Log Entries
+======================
+
+There are two methods for retrieving entries that have been stored via this logging class:
+
+* WP_Logging::get_logs( $object_id = 0, $type = null, $paged = null )
+* WP_Logging::get_connected_logs( $args = array() )
