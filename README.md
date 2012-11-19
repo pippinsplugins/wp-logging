@@ -41,7 +41,7 @@ There are two ways to record a log entry, one is quick and simple and the one is
 Using `add()`:
 
 ```php
-WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
+$log_entry = WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
 ```
 
 * _$title_ - The log entry title (string)
