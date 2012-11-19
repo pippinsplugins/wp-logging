@@ -57,5 +57,5 @@ $message 	= 'There was an error processing the payment. Here are details of the 
 $parent 	= 46; // This might be the ID of a payment post type item we want this log item connected to
 $type 		= 'error';
 
-WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
+WP_Logging::add( $title, $message, $parent, $type );
 ``` 
