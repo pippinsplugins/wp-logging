@@ -1,5 +1,5 @@
-WP-Logging
-==========
+WP-Logging - Introduction
+=========================
 
 A WordPress class that provides a general logging system. This class is designed to be used it large systems that need a way of persistently tracking events, errors, actions, etc.
 
@@ -32,3 +32,30 @@ function pw_add_log_types( $types ) {
 }
 add_filter( 'wp_log_types', 'pw_add_log_types' );
 ```
+
+Recording Log Entries
+=====================
+
+There are two ways to record a log entry, one is quick and simple and the one is more involved, but also gives more control.
+
+Using `add()`:
+
+```php
+WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
+```
+
+* _$title_ - The log entry title (string)
+* _$message_ - The log entry message. (string)
+* _$parent_ - The post object ID that you want this log entry connected to, if any (int)
+* _$type_ - The type classification to give this log entry. Must be one of the types registered in log_types() (string)
+
+A sample log entry creation might look like this:
+
+```php
+$title 		= 'Payment Error';
+$message 	= 'There was an error processing the payment. Here are details of the transaction: (details shown here)';
+$parent 	= 46; // This might be the ID of a payment post type item we want this log item connected to
+$type 		= 'error';
+
+WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
+``` 
