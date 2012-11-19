@@ -171,6 +171,8 @@ class WP_Logging {
 	 * @uses 		wp_parse_args()
 	 * @uses 		wp_insert_post()
 	 * @uses 		update_post_meta()
+	 * @uses 		wp_set_object_terms()
+	 * @uses 		sanitize_key()
 	 *
 	 * @return      int The ID of the newly created log item
 	*/
@@ -218,7 +220,9 @@ class WP_Logging {
 	 * @access      private
 	 * @since       1.0
 	 *
+	 * @uses 		wp_parse_args()
 	 * @uses 		wp_update_post()
+	 * @uses 		update_post_meta()
 	 *
 	 * @return      bool True if successful, false otherwise
 	*/
@@ -259,6 +263,8 @@ class WP_Logging {
 	 *
 	 * @uses 	wp_parse_args()
 	 * @uses 	get_posts()
+	 * @uses 	get_query_var()
+	 * @uses 	$this->valid_type()
 	 *
 	 * @return  array / false
 	*/
@@ -306,6 +312,7 @@ class WP_Logging {
 	 * @since 	1.0
 	 *
 	 * @uses 	WP_Query()
+	 * @uses 	$this->valid_type()
 	 *
 	 * @return  int
 	*/
