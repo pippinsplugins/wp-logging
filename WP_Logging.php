@@ -131,7 +131,7 @@ class WP_Logging {
 	 * @return      int The ID of the new log entry
 	*/
 
-	static function add( $title = '', $message = '', $parent = 0, $type = null ) {
+	public static function add( $title = '', $message = '', $parent = 0, $type = null ) {
 
 		$log_data = array(
 			'post_title' 	=> $title,
@@ -156,7 +156,7 @@ class WP_Logging {
 	 * @return      array
 	*/
 
-	static function get_logs( $object_id = 0, $type = null, $paged = null ) {
+	public static function get_logs( $object_id = 0, $type = null, $paged = null ) {
 		return $this->get_connected_logs( array( 'post_parent' => $object_id, 'paged' => $paged, 'log_type' => $type ) );
 
 	}
@@ -175,7 +175,7 @@ class WP_Logging {
 	 * @return      int The ID of the newly created log item
 	*/
 
-	static function insert_log( $log_data = array(), $log_meta = array() ) {
+	public static function insert_log( $log_data = array(), $log_meta = array() ) {
 
 		$defaults = array(
 			'post_type' 	=> 'wp_log',
@@ -222,7 +222,7 @@ class WP_Logging {
 	 *
 	 * @return      bool True if successful, false otherwise
 	*/
-	static function update_log( $log_data = array(), $log_meta = array() ) {
+	public static function update_log( $log_data = array(), $log_meta = array() ) {
 
 		do_action( 'wp_pre_update_log', $log_id );
 
