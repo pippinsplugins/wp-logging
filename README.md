@@ -5,7 +5,9 @@ A WordPress class that provides a general logging system. This class is designed
 
 This class was first developed for [Easy Digital Downloads](https://github.com/pippinsplugins/Easy-Digital-Downloads/) and used to track payment creation, file downloads, purchase errors, and more.
 
-== Log Types ==
+Log Types
+=========
+
 
 Log entries are designed to be separated into "types". By default the class has "error" and event" log types. You can change these to anything you want by modifying the array in the log_types() method:
 
