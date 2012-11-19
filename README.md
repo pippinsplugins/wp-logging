@@ -58,4 +58,35 @@ $parent 	= 46; // This might be the ID of a payment post type item we want this 
 $type 		= 'error';
 
 WP_Logging::add( $title, $message, $parent, $type );
-``` 
+```
+
+
+Using `insert_log()`:
+
+```php
+$log_entry = WP_logging::insert_log( $log_data = array(), $log_meta = array() );
+```
+
+This method requires that all log data be passed via arrays. One array is used for the main post object data and one for additional log meta to be recorded with the log entry.
+
+The `$log_data` array accepts all arguments that can be passed to [wp_insert_post()](http://codex.wordpress.org/Function_Reference/wp_insert_post), with one additional parameter for `log_type`.
+
+The $log_data array expects key/value pairs for any meta data that should be recorded with the log entry. The meta data is stored is normal post meta, though all meta data is prefixed with `_wp_log_`.
+
+Creating a log entry with `insert_log()` might look like this:
+
+```php
+$log_data = array(
+	'post_title' 	=> 'Payment Error',
+	'post_content' 	=>  'There was an error processing the payment. Here are details of the transaction: (details shown here)',
+	'post_parent'	=> 46, // This might be the ID of a payment post type item we want this log item connected to
+	'log_type'		=> 'error'
+);
+
+$log_meta = array(
+	'customer_ip' 	=> 'xxx.xx.xx.xx' // the customer's IP address
+	'user_id' 		=> get_current_user_id() // the ID number of the currently logged-in user
+);
+
+$log_entry = WP_Logging::insert_log( $log_data, $log_meta );
+```
