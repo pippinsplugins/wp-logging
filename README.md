@@ -67,7 +67,8 @@ $parent 	= 46; // This might be the ID of a payment post type item we want this 
 
 WP_Logging::add( $title, $message, $parent );
 ```
-===
+- - -
+
 Using `insert_log()`:
 
 ```php
