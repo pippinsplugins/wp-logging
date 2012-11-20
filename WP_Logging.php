@@ -142,10 +142,10 @@ class WP_Logging {
 	public static function add( $title = '', $message = '', $parent = 0, $type = null ) {
 
 		$log_data = array(
-			'post_title' 	=> $title,
-			'post_content'	=> $message,
-			'post_parent'	=> $parent,
-			'log_type'		=> $type
+			'post_title'   => $title,
+			'post_content' => $message,
+			'post_parent'  => $parent,
+			'log_type'     => $type
 		);
 
 		return self::insert_log( $log_data );
@@ -171,11 +171,11 @@ class WP_Logging {
 	public static function insert_log( $log_data = array(), $log_meta = array() ) {
 
 		$defaults = array(
-			'post_type' 	=> 'wp_log',
-			'post_status'	=> 'publish',
-			'post_parent'	=> 0,
-			'post_content'	=> '',
-			'log_type'		=> false
+			'post_type'   => 'wp_log',
+			'post_status' => 'publish',
+			'post_parent' => 0,
+			'post_content'=> '',
+			'log_type'    => false
 		);
 
 		$args = wp_parse_args( $log_data, $defaults );
@@ -222,9 +222,9 @@ class WP_Logging {
 		do_action( 'wp_pre_update_log', $log_id );
 
 		$defaults = array(
-			'post_type' 	=> 'wp_log',
-			'post_status'	=> 'publish',
-			'post_parent'	=> 0
+			'post_type'   => 'wp_log',
+			'post_status' => 'publish',
+			'post_parent' => 0
 		);
 
 		$args = wp_parse_args( $log_data, $defaults );
@@ -280,12 +280,12 @@ class WP_Logging {
 	public static function get_connected_logs( $args = array() ) {
 
 		$defaults = array(
-			'post_parent' 	=> 0,
-			'post_type'		=> 'wp_log',
-			'posts_per_page'=> 10,
-			'post_status'	=> 'publish',
-			'paged'			=> get_query_var( 'paged' ),
-			'log_type'		=> false
+			'post_parent'    => 0,
+			'post_type'      => 'wp_log',
+			'posts_per_page' => 10,
+			'post_status'    => 'publish',
+			'paged'          => get_query_var( 'paged' ),
+			'log_type'       => false
 		);
 
 		$query_args = wp_parse_args( $args, $defaults );
@@ -294,9 +294,9 @@ class WP_Logging {
 
 			$query_args['tax_query'] = array(
 				array(
-					'taxonomy' 	=> 'wp_log_type',
-					'field'		=> 'slug',
-					'terms'		=> $query_args['log_type']
+					'taxonomy' => 'wp_log_type',
+					'field'    => 'slug',
+					'terms'    => $query_args['log_type']
 				)
 			);
 
@@ -328,19 +328,19 @@ class WP_Logging {
 	public static function get_log_count( $object_id = 0, $type = null, $meta_query = null ) {
 
 		$query_args = array(
-			'post_parent' 	=> $object_id,
-			'post_type'		=> 'wp_log',
+			'post_parent'   => $object_id,
+			'post_type'     => 'wp_log',
 			'posts_per_page'=> -1,
-			'post_status'	=> 'publish'
+			'post_status'   => 'publish'
 		);
 
 		if( ! empty( $type ) && self::valid_type( $type ) ) {
 
 			$query_args['tax_query'] = array(
 				array(
-					'taxonomy' 	=> 'wp_log_type',
-					'field'		=> 'slug',
-					'terms'		=> $type
+					'taxonomy' => 'wp_log_type',
+					'field'    => 'slug',
+					'terms'    => $type
 				)
 			);
 
