@@ -126,6 +126,7 @@ $args = array(
 	'paged'			=> get_query_var( 'paged' ),
 	'log_type'		=> 'error'
 );
+$logs = WP_Logging::get_connected_logs( $args );
 ```
 
 If you want to retrieve all log entries and ignore pagination, you can do this:
@@ -136,4 +137,7 @@ $args = array(
 	'posts_per_page'=> -1,
 	'log_type'		=> 'error'
 );
+$logs = WP_Logging::get_connected_logs( $args );
 ```
+
+Both `get_logs()` and `get_connected_logs()` will return a typical array of post objects, just like [get_posts()](http://codex.wordpress.org/Template_Tags/get_posts)
