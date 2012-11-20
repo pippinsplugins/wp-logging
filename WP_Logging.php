@@ -277,7 +277,7 @@ class WP_Logging {
 	 * @return  array / false
 	*/
 
-	function get_connected_logs( $args = array() ) {
+	public static function get_connected_logs( $args = array() ) {
 
 		$defaults = array(
 			'post_parent' 	=> 0,
@@ -325,7 +325,7 @@ class WP_Logging {
 	 * @return  int
 	*/
 
-	function get_log_count( $object_id = 0, $type = null, $meta_query = null ) {
+	public static function get_log_count( $object_id = 0, $type = null, $meta_query = null ) {
 
 		$query_args = array(
 			'post_parent' 	=> $object_id,
