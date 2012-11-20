@@ -164,7 +164,7 @@ To retrieve the total number of logs (regardless of type) attached to post objec
 ```php
 $count = WP_Logging::get_log_count( 57 );
 ```
-The third parameter is for passing a meta query array. This array should be in the same form as meta queries passed to [WP_Query](http://codex.wordpress.org/Class_Reference/WP_Query). For example, to retrieve a count of log entries that have a user IP that match a specific IP address, you can do this:
+The third parameter is for passing a meta query array. This array should be in the same form as meta queries passed to [WP_Query](http://codex.wordpress.org/Class_Reference/WP_Query). For example, to retrieve a count of error log entries that have a user IP that match a specific IP address, you can do this:
 
 ```php
 $meta_query = array(
@@ -173,5 +173,5 @@ $meta_query = array(
 		'value' => 'xxx.xx.xx.xx'			// the IP address to retrieve logs for
 	)
 );
-$count = WP_Logging::get_log_count( 57, 'error' );
+$count = WP_Logging::get_log_count( 57, 'error', $meta_query );
 ```
