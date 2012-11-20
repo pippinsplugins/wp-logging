@@ -44,10 +44,10 @@ Using `add()`:
 $log_entry = WP_Logging::add( $title = '', $message = '', $parent = 0, $type = null );
 ```
 
-* _$title_ - The log entry title (string)
-* _$message_ - The log entry message. (string)
-* _$parent_ - The post object ID that you want this log entry connected to, if any (int)
-* _$type_ - The type classification to give this log entry. Must be one of the types registered in log_types() (string)
+* _$title_ (string) - The log entry title
+* _$message_ - The log entry message (string)
+* _$parent_ (int) - The post object ID that you want this log entry connected to, if any
+* _$type_ (string) - The type classification to give this log entry. Must be one of the types registered in log_types(). This is optional.
 
 A sample log entry creation might look like this:
 
@@ -59,8 +59,15 @@ $type 		= 'error';
 
 WP_Logging::add( $title, $message, $parent, $type );
 ```
+Or, without a type:
+```php
+$title 		= 'Payment Error';
+$message 	= 'There was an error processing the payment. Here are details of the transaction: (details shown here)';
+$parent 	= 46; // This might be the ID of a payment post type item we want this log item connected to
 
-
+WP_Logging::add( $title, $message, $parent );
+```
+===
 Using `insert_log()`:
 
 ```php
