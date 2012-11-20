@@ -141,3 +141,37 @@ $logs = WP_Logging::get_connected_logs( $args );
 ```
 
 Both `get_logs()` and `get_connected_logs()` will return a typical array of post objects, just like [get_posts()](http://codex.wordpress.org/Template_Tags/get_posts)
+
+Get Log Entry Counts
+======================
+
+The `get_log_count()` method allows you to retrieve a count for the total number of log entries stored in the database. It allows you to retrieve logs attached to a specific post object ID, of a particular type, and also allows you to pass optional meta options for only counting log entries that have meta values stored.
+
+The method looks like this:
+
+```php
+WP_Logging:: get_log_count( $object_id = 0, $type = null, $meta_query = null )
+````
+
+To retrieve the total number of `error` logs attached to post 57, you can do this:
+
+```php
+$count = WP_Logging::get_log_count( 57, 'error' );
+```
+
+To retrieve the total number of logs (regardless of type) attached to post object ID 57, you can do this:
+
+```php
+$count = WP_Logging::get_log_count( 57 );
+```
+The third parameter is for passing a meta query array. This array should be in the same form as meta queries passed to [WP_Query](http://codex.wordpress.org/Class_Reference/WP_Query). For example, to retrieve a count of log entries that have a user IP that match a specific IP address, you can do this:
+
+```php
+$meta_query = array(
+	array(
+		'key' 	=> '_wp_log_customer_ip',	// the meta key
+		'value' => 'xxx.xx.xx.xx'			// the IP address to retrieve logs for
+	)
+);
+$count = WP_Logging::get_log_count( 57, 'error' );
+```
