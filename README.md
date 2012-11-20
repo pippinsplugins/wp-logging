@@ -104,5 +104,36 @@ Retrieving Log Entries
 
 There are two methods for retrieving entries that have been stored via this logging class:
 
-* WP_Logging::get_logs( $object_id = 0, $type = null, $paged = null )
-* WP_Logging::get_connected_logs( $args = array() )
+* `WP_Logging::get_logs( $object_id = 0, $type = null, $paged = null )`
+* `WP_Logging::get_connected_logs( $args = array() )`
+
+`get_logs()` is the simple method that lets you quickly retrieve logs that are connected to a specific post object. For example, to retrieve error logs connected to post ID 57, you'd do:
+
+```php
+$logs = WP_Logging::get_logs( 57, 'error' );
+```
+
+This will retrieve the first 10 entries related to ID 57. Note that the third parameter is for `$paged`. This allows you to pass a page number (in the case you're building an admin UI for showing logs) and WP_Logging will adjust the logs retrieved to match the page number.
+
+If you need more granular control, you will want to use `get_connected_logs()`. This method takes a single array of key/value pairs as the only parameter. The `$args` array accepts all arguments that can be passed to [wp_insert_post()](http://codex.wordpress.org/Function_Reference/wp_insert_post), with one additional parameter for `log_type`.
+
+Here's an example of using `get_connected_logs()`:
+
+```php
+$args = array(
+	'post_parent' 	=> 57,
+	'posts_per_page'=> 10,
+	'paged'			=> get_query_var( 'paged' ),
+	'log_type'		=> 'error'
+);
+```
+
+If you want to retrieve all log entries and ignore pagination, you can do this:
+
+```php
+$args = array(
+	'post_parent' 	=> 57,
+	'posts_per_page'=> -1,
+	'log_type'		=> 'error'
+);
+```
