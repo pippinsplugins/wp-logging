@@ -9,8 +9,16 @@
 */
 
 class WP_Logging {
+	
 
-
+	/**
+	 * Class constructor.
+	 *
+	 * @since 1.0
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function __construct() {
 
 		// create the log post type
@@ -45,7 +53,7 @@ class WP_Logging {
 	/**
 	 * Registers the wp_log Post Type
 	 *
-	 * @access      private
+	 * @access      public
 	 * @since       1.0
 	 *
 	 * @uses 		register_post_type()
@@ -53,7 +61,7 @@ class WP_Logging {
 	 * @return     void
 	*/
 
-	private function register_post_type() {
+	public function register_post_type() {
 		
 		/* logs post type */	
 
@@ -76,7 +84,7 @@ class WP_Logging {
 	 *
 	 * The Type taxonomy is used to determine the type of log entry
 	 *
-	 * @access      private
+	 * @access      public
 	 * @since       1.0
 	 *
 	 * @uses 		register_taxonomy()
@@ -86,11 +94,11 @@ class WP_Logging {
 	 * @return     void
 	*/
 
-	private function register_taxonomy() {
+	public function register_taxonomy() {
 
 		register_taxonomy( 'wp_log_type', 'wp_log' );
 
-		$types = $this->log_types();
+		$types = self::log_types();
 
 		foreach ( $types as $type ) {
 			if( ! term_exists( $type, 'wp_log_type' ) ) {
@@ -113,20 +121,20 @@ class WP_Logging {
 	*/
 
 	private function valid_type( $type ) {
-		return in_array( $type, $this->log_types() );
+		return in_array( $type, self::log_types() );
 	}
 
 
 	/**
 	 * Create new log entry
 	 *
-	 * This is just a simple and fast way to log something. Use $this->insert_log()
+	 * This is just a simple and fast way to log something. Use self::insert_log()
 	 * if you need to store custom meta data
 	 *
 	 * @access      private
 	 * @since       1.0
 	 *
-	 * @uses 		$this->insert_log()
+	 * @uses 		self::insert_log()
 	 *
 	 * @return      int The ID of the new log entry
 	*/
@@ -140,24 +148,7 @@ class WP_Logging {
 			'log_type'		=> $type
 		);
 
-		return $this->insert_log( $log_data );
-
-	}
-
-
-	/**
-	 * Easily retrieves log items for a particular object ID
-	 *
-	 * @access      private
-	 * @since       1.0
-	 *
-	 * @uses 		$this->get_connected_logs()
-	 *
-	 * @return      array
-	*/
-
-	public static function get_logs( $object_id = 0, $type = null, $paged = null ) {
-		return $this->get_connected_logs( array( 'post_parent' => $object_id, 'paged' => $paged, 'log_type' => $type ) );
+		return self::insert_log( $log_data );
 
 	}
 
@@ -195,7 +186,7 @@ class WP_Logging {
 		$log_id = wp_insert_post( $args );
 
 		// set the log type, if any
-		if( $log_data['log_type'] && $this->valid_type( $log_data['log_type'] ) ) {
+		if( $log_data['log_type'] && self::valid_type( $log_data['log_type'] ) ) {
 			wp_set_object_terms( $log_id, $log_data['log_type'], 'wp_log_type', false );
 		}
 
@@ -254,6 +245,23 @@ class WP_Logging {
 
 
 	/**
+	 * Easily retrieves log items for a particular object ID
+	 *
+	 * @access      private
+	 * @since       1.0
+	 *
+	 * @uses 		self::get_connected_logs()
+	 *
+	 * @return      array
+	*/
+
+	public static function get_logs( $object_id = 0, $type = null, $paged = null ) {
+		return self::get_connected_logs( array( 'post_parent' => $object_id, 'paged' => $paged, 'log_type' => $type ) );
+
+	}
+
+
+	/**
 	 * Retrieve all connected logs
 	 *
 	 * Used for retrieving logs related to particular items, such as a specific purchase.
@@ -264,7 +272,7 @@ class WP_Logging {
 	 * @uses 	wp_parse_args()
 	 * @uses 	get_posts()
 	 * @uses 	get_query_var()
-	 * @uses 	$this->valid_type()
+	 * @uses 	self::valid_type()
 	 *
 	 * @return  array / false
 	*/
@@ -282,7 +290,7 @@ class WP_Logging {
 
 		$query_args = wp_parse_args( $args, $defaults );
 
-		if( $query_args['log_type'] && $this->valid_type( $query_args['log_type'] ) ) {
+		if( $query_args['log_type'] && self::valid_type( $query_args['log_type'] ) ) {
 
 			$query_args['tax_query'] = array(
 				array(
@@ -312,7 +320,7 @@ class WP_Logging {
 	 * @since 	1.0
 	 *
 	 * @uses 	WP_Query()
-	 * @uses 	$this->valid_type()
+	 * @uses 	self::valid_type()
 	 *
 	 * @return  int
 	*/
@@ -326,7 +334,7 @@ class WP_Logging {
 			'post_status'	=> 'publish'
 		);
 
-		if( ! empty( $type ) && $this->valid_type( $type ) ) {
+		if( ! empty( $type ) && self::valid_type( $type ) ) {
 
 			$query_args['tax_query'] = array(
 				array(
