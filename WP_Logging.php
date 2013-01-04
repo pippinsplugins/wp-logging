@@ -9,7 +9,7 @@
 */
 
 class WP_Logging {
-	
+
 
 	/**
 	 * Class constructor.
@@ -23,7 +23,7 @@ class WP_Logging {
 
 		// create the log post type
 		add_action( 'plugins_loaded', array( $this, 'register_post_type' ) );
-		
+
 		// create types taxonomy and default types
 		add_action( 'plugins_loaded', array( $this, 'register_taxonomy' ) );
 
@@ -62,8 +62,8 @@ class WP_Logging {
 	*/
 
 	public function register_post_type() {
-		
-		/* logs post type */	
+
+		/* logs post type */
 
 		$log_args = array(
 			'labels'          => array( 'name' => __( 'Logs', 'wp-logging' ) ),
@@ -73,7 +73,7 @@ class WP_Logging {
 			'capability_type' => 'post',
 			'supports'        => array( 'title', 'editor' ),
 			'can_export'      => false
-		); 
+		);
 		register_post_type( 'wp_log', apply_filters( 'wp_logging_post_type_args', $log_args ) );
 
 	}
