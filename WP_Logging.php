@@ -22,10 +22,10 @@ class WP_Logging {
 	function __construct() {
 
 		// create the log post type
-		add_action( 'plugins_loaded', array( $this, 'register_post_type' ) );
+		add_action( 'init', array( $this, 'register_post_type' ) );
 
 		// create types taxonomy and default types
-		add_action( 'plugins_loaded', array( $this, 'register_taxonomy' ) );
+		add_action( 'init', array( $this, 'register_taxonomy' ) );
 
 	}
 
