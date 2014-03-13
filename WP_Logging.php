@@ -27,8 +27,91 @@ class WP_Logging {
 		// create types taxonomy and default types
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 
+		// make a cron job for this hook to start pruning
+		add_action( 'wp_logging_prune_routine', array( $this, 'prune_logs' ) );
+
 	}
 
+	/**
+	 * Allows you to tie in a cron job and prune old logs.
+	 *
+	 * @since 1.1
+	 * @access public
+	 *
+	 * @uses $this->get_logs_to_prune()     Returns array of posts via get_posts of logs to prune
+	 * @uses $this->prune_old_logs()        Deletes the logs that we don't want anymore
+	 */
+	public function prune_logs(){
+
+		$should_we_prune = apply_filters( 'wp_logging_should_we_prune', false );
+
+		if ( $should_we_prune === false ){
+			return;
+		}
+
+		$logs_to_prune = $this->get_logs_to_prune();
+
+		if ( isset( $logs_to_prune ) && ! empty( $logs_to_prune ) ){
+			$this->prune_old_logs( $logs_to_prune );
+		}
+
+	} // prune_logs
+
+	/**
+	 * Deletes the old logs that we don't want
+	 *
+	 * @since 1.1
+	 * @access private
+	 *
+	 * @param array/obj     $logs     required     The array of logs we want to prune
+	 *
+	 * @uses wp_delete_post()                      Deletes the post from WordPress
+	 *
+	 * @filter wp_logging_force_delete_log         Allows user to override the force delete setting which bypasses the trash
+	 */
+	private function prune_old_logs( $logs ){
+
+		$force = apply_filters( 'wp_logging_force_delete_log', true );
+
+		foreach( $logs as $l ){
+			wp_delete_post( $l->ID, $force );
+		}
+
+	} // prune_old_logs
+
+	/**
+	 * Returns an array of posts that are prune candidates.
+	 *
+	 * @since 1.1
+	 * @access private
+	 *
+	 * @return array     $old_logs     The array of posts that were returned from get_posts
+	 *
+	 * @uses apply_filters()           Allows users to change given args
+	 * @uses get_posts()               Returns an array of posts from given args
+	 *
+	 * @filter wp_logging_prune_when           Users can change how long ago we are looking for logs to prune
+	 * @filter wp_logging_prune_query_args     Gives users access to change any query args for pruning
+	 */
+	private function get_logs_to_prune(){
+
+		$how_old = apply_filters( 'wp_logging_prune_when', '2 weeks ago' );
+
+		$args = array(
+			'post_type'    => 'wp_log',
+			'date_query'   => array(
+				array(
+					'column' => 'post_date_gmt',
+					'before' => (string) $how_old,
+				)
+			)
+		);
+
+		$old_logs = get_posts( apply_filters( 'wp_logging_prune_query_args', $args ) );
+
+		return $old_logs;
+
+	} // get_logs_to_prune
 
 	/**
 	 * Log types
