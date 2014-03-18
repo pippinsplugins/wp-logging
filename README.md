@@ -175,3 +175,43 @@ $meta_query = array(
 );
 $count = WP_Logging::get_log_count( 57, 'error', $meta_query );
 ```
+
+Pruning Logs
+======================
+
+To prune older logs you need to first set the pruning conditional to true then set up a cron job to perform the pruning.
+
+```php
+function activate_pruning( $should_we_prune ){
+	return true;
+} // rapid_activate_pruning
+add_filter( 'wp_logging_should_we_prune', 'activate_pruning', 10 );
+
+
+$scheduled = wp_next_scheduled( 'wp_logging_prune_routine' );
+if ( $scheduled == false ){
+	wp_schedule_event( time(), 'daily', 'wp_logging_prune_routine' );
+}
+```
+
+The default time period is to prune logs that are over 2 weeks old. To change that use `wp_logging_prune_when`. If we wanted to prune logs older than 1 month.
+
+```php
+function change_prune_time( $time ){
+	return '1 month ago';
+}
+add_filter( 'wp_logging_prune_when', 'change_prune_time' );
+```
+
+The pruning query is run via `get_posts` and you can filter any arguement in the array with the `wp_logging_prune_query_args` filter.
+
+Logs are set to bypass the WordPress trash system. If you want to have logs hit the WordPress trash system then you'd need to filter `wp_logging_force_delete_log` and return false.
+
+```php
+function hit_trash(){
+	return false;
+}
+add_filter( 'wp_logging_force_delete_log', 'hit_trash' );
+```
+
+If you make your logs hit the WordPress trash then you'll need to write your own routine to clear the trash so logs don't build up for you.
