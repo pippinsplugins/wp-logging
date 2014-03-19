@@ -25,7 +25,7 @@ You could also register additional log types using a filter:
 
 ```php
 function pw_add_log_types( $types ) {
-	
+
 	$types[] = 'registration';
 	return $types;
 
@@ -179,7 +179,7 @@ $count = WP_Logging::get_log_count( 57, 'error', $meta_query );
 Pruning Logs
 ======================
 
-To prune older logs you need to first set the pruning conditional to true then set up a cron job to perform the pruning.
+To prune older logs you need to first set the pruning conditional to true then set up a cron job to perform the pruning. It's recommended you set the cron job to hourly so that you can stay on top of pruning your logs. Running daily and deleting 100 logs (the default number) means that many sites would never actually stay caught up with log prunning.
 
 ```php
 function activate_pruning( $should_we_prune ){
@@ -190,7 +190,7 @@ add_filter( 'wp_logging_should_we_prune', 'activate_pruning', 10 );
 
 $scheduled = wp_next_scheduled( 'wp_logging_prune_routine' );
 if ( $scheduled == false ){
-	wp_schedule_event( time(), 'daily', 'wp_logging_prune_routine' );
+	wp_schedule_event( time(), 'hourly', 'wp_logging_prune_routine' );
 }
 ```
 
@@ -203,7 +203,7 @@ function change_prune_time( $time ){
 add_filter( 'wp_logging_prune_when', 'change_prune_time' );
 ```
 
-The pruning query is run via `get_posts` and you can filter any arguement in the array with the `wp_logging_prune_query_args` filter.
+The pruning query is run via `get_posts` and you can filter any arguement in the array with the `wp_logging_prune_query_args` filter. By default we prune 100 logs each time the pruning routine is run. You could certainly up this number if your server will handle the load.
 
 Logs are set to bypass the WordPress trash system. If you want to have logs hit the WordPress trash system then you'd need to filter `wp_logging_force_delete_log` and return false.
 
