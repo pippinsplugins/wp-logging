@@ -98,8 +98,9 @@ class WP_Logging {
 		$how_old = apply_filters( 'wp_logging_prune_when', '2 weeks ago' );
 
 		$args = array(
-			'post_type'    => 'wp_log',
-			'date_query'   => array(
+			'post_type'      => 'wp_log',
+			'posts_per_page' => '100',
+			'date_query'     => array(
 				array(
 					'column' => 'post_date_gmt',
 					'before' => (string) $how_old,
