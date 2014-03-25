@@ -1,0 +1,14 @@
+{
+	"name": "pippinsplugins/WP-Logging",
+	"type": "library",
+	"authors": [{
+		"name": "Pippin Williamson"
+        }],
+ 	"description": "A WordPress class that provides a general logging system.",
+ 	"homepage": "https://github.com/pippinsplugins/WP-Logging",
+ 	"license": "GPL-2.0+",
+ 	"keywords": ["wordpress", "logging", "logger", "log"],
+ 	"require" : {
+    		"php" : ">=5.2.0"
+	}
+}
