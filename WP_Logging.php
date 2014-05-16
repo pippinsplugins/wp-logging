@@ -125,7 +125,7 @@ class WP_Logging {
 	 * @return     array
 	*/
 
-	private function log_types() {
+	private static function log_types() {
 		$terms = array(
 			'error', 'event'
 		);
@@ -204,7 +204,7 @@ class WP_Logging {
 	 * @return     array
 	*/
 
-	private function valid_type( $type ) {
+	private static function valid_type( $type ) {
 		return in_array( $type, self::log_types() );
 	}
 
