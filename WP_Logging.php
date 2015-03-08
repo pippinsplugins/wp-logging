@@ -151,7 +151,7 @@ class WP_Logging {
 
 		$log_args = array(
 			'labels'          => array( 'name' => __( 'Logs', 'wp-logging' ) ),
-			'public'          => false,
+			'public'          => defined( 'WP_DEBUG' ) && WP_DEBUG,
 			'query_var'       => false,
 			'rewrite'         => false,
 			'capability_type' => 'post',
