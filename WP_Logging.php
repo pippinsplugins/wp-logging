@@ -74,7 +74,8 @@ class WP_Logging {
 		$force = apply_filters( 'wp_logging_force_delete_log', true );
 
 		foreach( $logs as $l ){
-			wp_delete_post( $l->ID, $force );
+			$id = is_int( $l ) ? $l : $l->ID;
+			wp_delete_post( $id, $force );
 		}
 
 	} // prune_old_logs
